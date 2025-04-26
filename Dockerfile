@@ -7,6 +7,9 @@ ENV N8N_BASIC_AUTH_ACTIVE=true
 ENV N8N_BASIC_AUTH_USER=admin
 ENV N8N_BASIC_AUTH_PASSWORD=admin123
 
+# Configura a pasta de dados corretamente
+ENV N8N_USER_FOLDER=/home/node/.n8n
+
 # Configura a URL do webhook corretamente para HTTPS
 ENV WEBHOOK_URL=https://furiosinho-bot.onrender.com/
 
