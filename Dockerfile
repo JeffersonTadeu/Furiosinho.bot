@@ -8,6 +8,6 @@ ENV N8N_BASIC_AUTH_USER=admin
 ENV N8N_BASIC_AUTH_PASSWORD=admin123
 
 # Configura a URL do webhook corretamente para HTTPS
-ENV WEBHOOK_URL=https://furiosinho-bot.onrender.com
+ENV WEBHOOK_URL=https://furiosinho-bot.onrender.com/
 
 EXPOSE 5678
