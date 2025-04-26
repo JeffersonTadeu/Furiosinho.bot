@@ -6,6 +6,6 @@ services:
     autoDeploy: true
     dockerfilePath: Dockerfile
     disk:
-       name: n8n-data
-       mountPath: /home/node/.n8n
-       sizeGB: 1
+      name: n8n-data
+      mountPath: /home/node/.n8n
+      sizeGB: 1
