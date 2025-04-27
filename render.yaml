@@ -6,12 +6,3 @@ services:
     autoDeploy: true
     dockerfilePath: Dockerfile
     healthCheckPath: /healthz
-    envVars:
-      - key: DB_TYPE
-      - key: DB_HOST
-      - key: DB_PORT
-      - key: DB_DATABASE
-      - key: DB_USER
-      - key: DB_PASSWORD
-      - key: N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS
-        value: "true"
