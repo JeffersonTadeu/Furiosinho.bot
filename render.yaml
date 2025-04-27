@@ -19,23 +19,7 @@ services:
         value: "5678"
       - key: WEBHOOK_URL
         fromEnvVar: WEBHOOK_URL
-
-      # Configurações do Postgres certinho
       - key: DB_TYPE
         value: "postgresdb"
-      - key: DB_POSTGRESDB_DATABASE
-        value: "n8n-database" # ou o nome real do seu banco, parece que é "n8n-database"
-      - key: DB_POSTGRESDB_HOST
-        fromEnvVar: DB_HOST
-      - key: DB_POSTGRESDB_PORT
-        value: "5432"
-      - key: DB_POSTGRESDB_USER
-        fromEnvVar: DB_USER
-      - key: DB_POSTGRESDB_PASSWORD
-        fromEnvVar: DB_PASSWORD
-
-      # Para que o n8n saiba a URL externa (importante para Webhooks!)
-      - key: N8N_PROTOCOL
-        value: "https"
-      - key: N8N_WEBHOOK_URL
-        fromEnvVar: WEBHOOK_URL
+      - key: DB_URL
+        fromEnvVar: DB_URL
