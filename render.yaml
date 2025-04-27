@@ -5,7 +5,11 @@ services:
     plan: free
     autoDeploy: true
     dockerfilePath: Dockerfile
+    healthCheckPath: /healthz
     disk:
       name: n8n-data
       mountPath: /home/node/.n8n
       sizeGB: 1
+    envVars:
+      - key: WEB_CONCURRENCY
+        value: "1"
