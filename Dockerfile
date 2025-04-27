@@ -1,10 +1,5 @@
-# Use a imagem básica do n8n
-FROM n8nio/n8n:latest
+# Usa a imagem oficial do n8n
+FROM n8nio/n8n
 
-# Configuração do banco de dados via variáveis de ambiente
-ENV DB_TYPE=${DB_TYPE}
-ENV DB_POSTGRESDB_HOST=${DB_HOST}
-ENV DB_POSTGRESDB_PORT=${DB_PORT}
-ENV DB_POSTGRESDB_DATABASE=${DB_DATABASE}
-ENV DB_POSTGRESDB_USER=${DB_USER}
-ENV DB_POSTGRESDB_PASSWORD=${DB_PASSWORD}
+# Expõe a porta padrão do n8n
+EXPOSE 5678
