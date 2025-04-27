@@ -13,6 +13,6 @@ ENV DB_TYPE=sqlite
 ENV DB_SQLITE_DATABASE=/home/node/.n8n/database.sqlite
 
 # Configura a URL do webhook corretamente para HTTPS
-ENV WEBHOOK_URL=https://furiosinho-bot.onrender.com/
+ENV WEBHOOK_URL=https://furiosinho-bot.onrender.com
 
 EXPOSE 5678
