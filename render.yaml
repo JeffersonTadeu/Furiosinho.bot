@@ -10,15 +10,15 @@ services:
       - key: N8N_BASIC_AUTH_ACTIVE
         value: "true" # Habilita autenticação básica para proteger o acesso
       - key: N8N_BASIC_AUTH_USER
-        value: "admin" # Altere para o nome de usuário desejado
+        fromEnvVar: N8N_BASIC_AUTH_USER
       - key: N8N_BASIC_AUTH_PASSWORD
-        value: "password" # Altere para uma senha segura
+        fromEnvVar: N8N_BASIC_AUTH_PASSWORD
       - key: N8N_HOST
         value: "0.0.0.0" # Permite que o serviço escute em todas as interfaces
       - key: N8N_PORT
         value: "5678" # Porta padrão do n8n
       - key: WEBHOOK_URL
-        value: "https://furiosinho-bot.onrender.com" # Substitua pelo domínio fornecido pelo Render
+        fromEnvVar: WEBHOOK_URL
       - key: DB_TYPE
         value: "postgresdb"
       - key: DB_URL
