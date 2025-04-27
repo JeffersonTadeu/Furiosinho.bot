@@ -20,6 +20,6 @@ services:
       - key: WEBHOOK_URL
         fromEnvVar: WEBHOOK_URL
       - key: DB_TYPE
-        value: "postgres"
+        value: "postgres"  # <-- Corrigido aqui
       - key: DB_URL
         fromEnvVar: DB_URL
