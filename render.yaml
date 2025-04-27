@@ -19,3 +19,7 @@ services:
         value: "5678" # Porta padrão do n8n
       - key: WEBHOOK_URL
         value: "https://furiosinho-bot.onrender.com" # Substitua pelo domínio fornecido pelo Render
+      - key: DB_TYPE
+        value: "postgresdb"
+      - key: DB_URL
+        fromEnvVar: DB_URL
