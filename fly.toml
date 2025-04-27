@@ -1,0 +1,26 @@
+app = "n8n-app" # Substitua pelo nome da sua aplicação
+
+[build]
+  image = "n8nio/n8n:latest"
+
+[env]
+  N8N_BASIC_AUTH_ACTIVE = "true" # Habilitar autenticação básica
+  N8N_BASIC_AUTH_USER = "admin"  # Usuário básico
+  N8N_BASIC_AUTH_PASSWORD = "strongpassword123" # Senha básica
+  N8N_HOST = "0.0.0.0"           # Escutar em todas as interfaces
+  N8N_PORT = "5678"              # Porta padrão do n8n
+  DB_TYPE = "postgresdb"
+  DB_URL = "postgresql://<USER>:<PASSWORD>@<HOST>:<PORT>/<DB_NAME>" # Fly.io usará a variável DATABASE_URL automaticamente
+  WEBHOOK_URL = "https://<your-app-name>.fly.dev/" # URL pública do Fly.io
+
+[[services]]
+  internal_port = 5678
+  protocol = "tcp"
+
+  [[services.ports]]
+    handlers = ["http"]
+    port = 80
+
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443
