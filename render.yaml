@@ -6,3 +6,29 @@ services:
     autoDeploy: true
     dockerfilePath: Dockerfile
     healthCheckPath: /healthz
+    envVars:
+      - key: N8N_BASIC_AUTH_ACTIVE
+        value: "true"
+      - key: N8N_BASIC_AUTH_USER
+        fromEnvVar: N8N_BASIC_AUTH_USER
+      - key: N8N_BASIC_AUTH_PASSWORD
+        fromEnvVar: N8N_BASIC_AUTH_PASSWORD
+      - key: N8N_HOST
+        value: "0.0.0.0"
+      - key: N8N_PORT
+        value: "5678"
+      - key: WEBHOOK_URL
+        fromEnvVar: WEBHOOK_URL
+      - key: DB_TYPE
+        value: "postgresdb"
+      - key: DB_POSTGRESDB_HOST
+        fromEnvVar: DB_POSTGRES_HOST
+      - key: DB_POSTGRESDB_PORT
+        fromEnvVar: DB_POSTGRES_PORT
+      - key: DB_POSTGRESDB_DATABASE
+        fromEnvVar: DB_POSTGRESDB_DATABASE
+      - key: DB_POSTGRESDB_USER
+        fromEnvVar: DB_POSTGRESDB_USER
+      - key: DB_POSTGRESDB_PASSWORD
+        fromEnvVar: DB_POSTGRESDB_PASSWORD
+
