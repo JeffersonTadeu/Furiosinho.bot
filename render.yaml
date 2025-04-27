@@ -5,17 +5,3 @@ services:
     plan: free
     autoDeploy: true
     dockerfilePath: Dockerfile
-    healthCheckPath: /healthz
-    envVars:
-      - key: N8N_BASIC_AUTH_ACTIVE
-        value: "true"
-      - key: N8N_BASIC_AUTH_USER
-        fromEnvVar: N8N_BASIC_AUTH_USER
-      - key: N8N_BASIC_AUTH_PASSWORD
-        fromEnvVar: N8N_BASIC_AUTH_PASSWORD
-      - key: N8N_HOST
-        value: "0.0.0.0"
-      - key: N8N_PORT
-        value: "5678"
-      - key: WEBHOOK_URL
-        fromEnvVar: WEBHOOK_URL
