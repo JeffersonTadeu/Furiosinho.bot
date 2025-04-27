@@ -20,7 +20,7 @@ services:
       - key: WEBHOOK_URL
         fromEnvVar: WEBHOOK_URL
       - key: DB_TYPE
-        value: "postgres"
+        value: "postgresdb"
       - key: DB_POSTGRESDB_HOST
         fromEnvVar: DB_POSTGRES_HOST
       - key: DB_POSTGRESDB_PORT
