@@ -19,7 +19,3 @@ services:
         value: "5678"
       - key: WEBHOOK_URL
         fromEnvVar: WEBHOOK_URL
-      - key: DB_TYPE
-        value: "postgresdb"
-      - key: DB_URL
-        fromEnvVar: DB_URL
