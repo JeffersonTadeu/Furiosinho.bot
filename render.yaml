@@ -31,4 +31,7 @@ services:
         fromEnvVar: DB_POSTGRESDB_USER
       - key: DB_POSTGRESDB_PASSWORD
         fromEnvVar: DB_POSTGRESDB_PASSWORD
+      - key: N8N_ENCRYPTION_KEY
+        fromEnvVar: N8N_ENCRYPTION_KEY
+
 
