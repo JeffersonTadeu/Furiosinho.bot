@@ -7,7 +7,7 @@ services:
     dockerfilePath: Dockerfile
     healthCheckPath: /healthz
     envVars:
-      - key: DB_TYPE         # O valor será configurado no painel do Render
+      - key: DB_TYPE
       - key: DB_HOST
       - key: DB_PORT
       - key: DB_DATABASE
