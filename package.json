@@ -1,15 +1,12 @@
 {
-  "name": "furiosinho",
+  "name": "meu-bot",
   "version": "1.0.0",
-  "main": "telegram.js",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "dependencies": {
-    "node-telegram-bot-api": "^0.66.0"
+    "express": "^4.18.2",
+    "node-telegram-bot-api": "^0.61.0"
   }
 }
