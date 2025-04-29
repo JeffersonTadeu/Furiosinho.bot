@@ -1,23 +1,20 @@
-// bot.js
-const TelegramBot = require('node-telegram-bot-api');
+const express = require("express");
+const TelegramBot = require("node-telegram-bot-api");
 
-// Coloque o Token que o BotFather te deu
-const token = '7145229056:AAEWXsQPcPnXCM1uisgaT6DBVylJoKlcpoU';
-const bot = new TelegramBot(token, { polling: true });
+const app = express();
+const PORT = process.env.PORT || 3000;
+const TOKEN = process.env.TOKEN;
 
-bot.on('message', (msg) => {
-  const chatId = msg.chat.id;
-  const text = msg.text.toLowerCase();
+const bot = new TelegramBot(TOKEN, { polling: true });
 
-  let reply = 'Não entendi sua mensagem.';
+app.get("/", (req, res) => {
+  res.send("Bot está rodando!");
+});
 
-  if (text.includes('oi')) {
-    reply = 'Oi! Como posso ajudar você?';
-  } else if (text.includes('horas')) {
-    reply = `Agora são ${new Date().toLocaleTimeString()}`;
-  } else if (text.includes('adeus')) {
-    reply = 'Até a próxima!';
-  }
+bot.on("message", (msg) => {
+  bot.sendMessage(msg.chat.id, "Olá! Eu sou um bot ativo no Render.");
+});
 
-  bot.sendMessage(chatId, reply);
+app.listen(PORT, () => {
+  console.log(`Servidor escutando na porta ${PORT}`);
 });
