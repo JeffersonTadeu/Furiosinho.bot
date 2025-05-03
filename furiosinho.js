@@ -102,7 +102,8 @@ bot.on("callback_query", (callbackQuery) => {
 
   if (data === "aceito") {
     users[chatId] = { accepted: true, waitingName: true, name: "", hasReceivedMenu: false };
-    bot.sendMessage(chatId, "👍 Termos aceitos! Qual é o seu nome?");
+    bot.sendMessage(chatId, "Booaa! Estamos seguindo a mesma call!");
+    bot.sendMessage("Para melhorarmos nossa comunicação, me responda: Qual é o seu nome?")
   } else if (data === "nao_aceito") {
     bot.sendMessage(chatId, "❌ Você recusou os termos. Encerrando a conversa.");
     delete users[chatId];
