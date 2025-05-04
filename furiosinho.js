@@ -315,6 +315,11 @@ bot.on("callback_query", (callbackQuery) => {
         } 
       }
     );
+
+    bot.editMessageReplyMarkup({ inline_keyboard: [] }, {
+      chat_id: chatId,
+      message_id: callbackQuery.message.message_id
+    });
     resetInactivityTimeout(chatId); 
 
   } else if (data === "curiosity_yuurih") {
@@ -344,6 +349,10 @@ bot.on("callback_query", (callbackQuery) => {
         }      
       }
     );
+    bot.editMessageReplyMarkup({ inline_keyboard: [] }, {
+      chat_id: chatId,
+      message_id: callbackQuery.message.message_id
+    });
     resetInactivityTimeout(chatId); 
 
   } else if (data === "curiosity_kscerato") {
@@ -373,6 +382,10 @@ bot.on("callback_query", (callbackQuery) => {
         }      
       }
     );
+    bot.editMessageReplyMarkup({ inline_keyboard: [] }, {
+      chat_id: chatId,
+      message_id: callbackQuery.message.message_id
+    });
     resetInactivityTimeout(chatId); 
 
   } else if (data === "curiosity_molodoy") {
@@ -402,6 +415,10 @@ bot.on("callback_query", (callbackQuery) => {
         }      
       }
     );
+    bot.editMessageReplyMarkup({ inline_keyboard: [] }, {
+      chat_id: chatId,
+      message_id: callbackQuery.message.message_id
+    });
     resetInactivityTimeout(chatId); 
 
   } else if (data === "curiosity_yekindar") {
@@ -431,6 +448,10 @@ bot.on("callback_query", (callbackQuery) => {
         }      
       }
     );
+    bot.editMessageReplyMarkup({ inline_keyboard: [] }, {
+      chat_id: chatId,
+      message_id: callbackQuery.message.message_id
+    });
     resetInactivityTimeout(chatId); 
 
   } else if (data === "menu") {
