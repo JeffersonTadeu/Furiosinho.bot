@@ -34,19 +34,27 @@ bot.on("message", (msg) => {
   // Início da interação
   if (!users[chatId]) {
     users[chatId] = { accepted: false, waitingName: false, name: "", hasReceivedMenu: false, changingName: false };
-
+  
     bot.sendMessage(chatId, "💥💥 Falaaaa Furioso! Que ótimo te ver por aqui, eu sou o Furiosinho e estou animado para te deixar por dentro de tudo sobre nosso time de CS da Fúria 👊🚀")
-    setTimeout(() => { return bot.sendMessage(chatId, "🤖 Termos de uso: exemplo.com", {
-      reply_markup: {
-        inline_keyboard: [
-          [
-            { text: "✅ Aceito", callback_data: "accept_terms" },
-            { text: "❌ Não aceito", callback_data: "no_accept_terms" }
-          ]
-        ]
-      }
-    })}, 500);;
+      .then(() => {
+        return bot.sendMessage(chatId, "⚠️ Você precisa aceitar os termos antes de continuar.");
+      })
+      .then(() => {
+        return bot.sendMessage(chatId, "🤖 Termos de uso: exemplo.com", {
+          reply_markup: {
+            inline_keyboard: [
+              [
+                { text: "✅ Aceito", callback_data: "accept_terms" },
+                { text: "❌ Não aceito", callback_data: "no_accept_terms" }
+              ]
+            ]
+          }
+        });
+      });
+  
+    return; 
   }
+  
 
   // Se não aceitou os termos ainda
   if (!users[chatId].accepted) {
