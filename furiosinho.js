@@ -294,7 +294,26 @@ bot.on("callback_query", (callbackQuery) => {
       "• Conhecido como <b>“O Professor”</b>, FalleN é uma lenda viva do CS brasileiro e mundial.\n" +
       "• Bicampeão de Major (MLG Columbus 2016 e ESL One Cologne 2016).\n" +
       "• Líder tático e estrategista nato, comanda o time como IGL com maestria.",
-      { parse_mode: 'HTML' }
+      { parse_mode: 'HTML',
+        reply_markup: {
+          inline_keyboard: [
+            [ 
+              { text: "🪨 yuurih", callback_data: "curiosity_yuurih" }
+            ],
+            [ 
+              { text: "💥 KSCERATO", callback_data: "curiosity_kscerato" },
+              { text: "🧢 molodoy", callback_data: "curiosity_molodoy" }
+            ],
+            [
+              { text: "🚀 YEKINDAR", callback_data: "curiosity_yekindar" },
+              { text: "⬅️ Voltar ao menu", callback_data: "menu" }
+            ],
+            [
+              { text: "❌ Encerrar conversa", callback_data: "close_chat" }
+            ]
+          ]
+        } 
+      }
     );
     resetInactivityTimeout(chatId); 
 
@@ -304,7 +323,26 @@ bot.on("callback_query", (callbackQuery) => {
       "• Na FURIA desde 2017, é a nossa <b>rocha</b> — sempre firme.\n" +
       "• Mestre dos clutches e extremamente consistente.\n" +
       "• Fora do servidor é discreto, mas no game é mortal. 🐍",
-      { parse_mode: 'HTML' }
+      { parse_mode: 'HTML',
+        reply_markup: {
+          inline_keyboard: [
+            [ 
+              { text: "🎓 FalleN", callback_data: "curiosity_fallen" }
+            ],
+            [ 
+              { text: "💥 KSCERATO", callback_data: "curiosity_kscerato" },
+              { text: "🧢 molodoy", callback_data: "curiosity_molodoy" }
+            ],
+            [
+              { text: "🚀 YEKINDAR", callback_data: "curiosity_yekindar" },
+              { text: "⬅️ Voltar ao menu", callback_data: "menu" }
+            ],
+            [
+              { text: "❌ Encerrar conversa", callback_data: "close_chat" }
+            ]
+          ]
+        }      
+      }
     );
     resetInactivityTimeout(chatId); 
 
@@ -314,7 +352,26 @@ bot.on("callback_query", (callbackQuery) => {
       "• Um dos melhores jogadores da FURIA desde 2018.\n" +
       "• Mira absurda, estilo agressivo e inteligente.\n" +
       "• Já esteve entre os <b>20 melhores do mundo</b>.",
-      { parse_mode: 'HTML' }
+      { parse_mode: 'HTML',
+        reply_markup: {
+          inline_keyboard: [
+            [ 
+              { text: "🎓 FalleN", callback_data: "curiosity_fallen" },
+              { text: "🪨 yuurih", callback_data: "curiosity_yuurih" }
+            ],
+            [ 
+              { text: "🧢 molodoy", callback_data: "curiosity_molodoy" }
+            ],
+            [
+              { text: "🚀 YEKINDAR", callback_data: "curiosity_yekindar" },
+              { text: "⬅️ Voltar ao menu", callback_data: "menu" }
+            ],
+            [
+              { text: "❌ Encerrar conversa", callback_data: "close_chat" }
+            ]
+          ]
+        }      
+      }
     );
     resetInactivityTimeout(chatId); 
 
@@ -324,7 +381,26 @@ bot.on("callback_query", (callbackQuery) => {
       "• Nosso recruta! Chegando com vontade de brilhar.\n" +
       "• Ainda novo, mas com um futuro promissor!\n" +
       "• Fica de olho, ele promete fazer história! ✨",
-      { parse_mode: 'HTML' }
+      { parse_mode: 'HTML',
+        reply_markup: {
+          inline_keyboard: [
+            [ 
+              { text: "🎓 FalleN", callback_data: "curiosity_fallen" },
+              { text: "🪨 yuurih", callback_data: "curiosity_yuurih" }
+            ],
+            [ 
+              { text: "💥 KSCERATO", callback_data: "curiosity_kscerato" }
+            ],
+            [
+              { text: "🚀 YEKINDAR", callback_data: "curiosity_yekindar" },
+              { text: "⬅️ Voltar ao menu", callback_data: "menu" }
+            ],
+            [
+              { text: "❌ Encerrar conversa", callback_data: "close_chat" }
+            ]
+          ]
+        }      
+      }
     );
     resetInactivityTimeout(chatId); 
 
@@ -334,7 +410,26 @@ bot.on("callback_query", (callbackQuery) => {
       "• Estilo extremamente agressivo e impactante.\n" +
       "• Brilha abrindo espaço nos rounds TR.\n" +
       "• Destaque em 2022 como um dos maiores impactadores por round.",
-      { parse_mode: 'HTML' }
+      { parse_mode: 'HTML',
+        reply_markup: {
+          inline_keyboard: [
+            [ 
+              { text: "🎓 FalleN", callback_data: "curiosity_fallen" },
+              { text: "🪨 yuurih", callback_data: "curiosity_yuurih" }
+            ],
+            [ 
+              { text: "💥 KSCERATO", callback_data: "curiosity_kscerato" },
+              { text: "🧢 molodoy", callback_data: "curiosity_molodoy" }
+            ],
+            [
+              { text: "⬅️ Voltar ao menu", callback_data: "menu" }
+            ],
+            [
+              { text: "❌ Encerrar conversa", callback_data: "close_chat" }
+            ]
+          ]
+        }      
+      }
     );
     resetInactivityTimeout(chatId); 
 
