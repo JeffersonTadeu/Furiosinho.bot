@@ -1,5 +1,6 @@
 require("dotenv").config();
 
+
 const express = require("express");
 const TelegramBot = require("node-telegram-bot-api");
 
@@ -8,6 +9,7 @@ const PORT = process.env.PORT || 3000;
 const BOT_TOKEN = process.env.BOT_TOKEN;
 
 const bot = new TelegramBot(BOT_TOKEN, { polling: true });
+const path = require("path");
 
 const users = {}; // chatId: { accepted, waitingName, name, hasReceivedMenu }
 
@@ -15,18 +17,23 @@ app.get("/", (req, res) => {
   res.send("Bot está rodando!");
 });
 
+const wallpapers = [
+  { path: "./imgs/wallpaper_1.png", caption: "🖼️ Aqui está o primeiro wallpaper da FURIA! Quer ver os outros?" },
+  { path: "./imgs/wallpaper_2.jpg", caption: "🔥 Segundo wallpaper da FURIA, monstro né? Bora pro próximo?" },
+  { path: "./imgs/wallpaper_3.png", caption: "👀 Curte esse estilo? Veja mais!" },
+  { path: "./imgs/wallpaper_4.jpg", caption: "💣 Último da série! Já escolheu o seu favorito?" }
+];
+
 // Recebendo mensagens do usuário
 bot.on("message", (msg) => {
   const chatId = msg.chat.id;
   const text = msg.text;
 
-  resetInactivityTimeout(chatId);
-
   console.log("📥 Mensagem recebida:", { chatId, text });
 
   // Início da interação
   if (!users[chatId]) {
-    users[chatId] = { accepted: false, waitingName: false, name: "", hasReceivedMenu: false };
+    users[chatId] = { accepted: false, waitingName: false, name: "", hasReceivedMenu: false, changingName: false };
 
     bot.sendMessage(chatId, "💥💥 Falaaaa Furioso! Que ótimo te ver por aqui, eu sou o Furiosinho e estou animado para te deixar por dentro de tudo sobre nosso time de CS da Fúria 👊🚀")
     setTimeout(() => { return bot.sendMessage(chatId, "🤖 Termos de uso: exemplo.com", {
@@ -51,7 +58,38 @@ bot.on("message", (msg) => {
     users[chatId].name = text;
     users[chatId].waitingName = false;
 
+    resetInactivityTimeout(chatId);
+
     return sendMainMenu(chatId);
+  }
+
+  if (users[chatId].changingName) {
+    users[chatId].name = text;
+    users[chatId].changingName = false;
+  
+    resetInactivityTimeout(chatId);
+  
+    const nome = users[chatId].name || "player";
+  
+    (async () => {
+      await bot.sendMessage(chatId, `✅ Ótimo nome! Sobre o que podemos falar agora então, FUR ${nome} 🇧🇷?`);
+  
+      const menuDireto =
+        "🔥 Segue os tópicos do nosso menu \n\n" +
+        "1️⃣ - Ver os próximos jogos 📆\n" +
+        "2️⃣ - Ver resultados recentes 🖋️\n" +
+        "3️⃣ - Ver a escalação atual 👥\n" +
+        "4️⃣ - Próximos torneios 🏆\n" +
+        "5️⃣ - Link da nossa lojinha 🛒\n" +
+        "6️⃣ - História da Fúria no CS 🔥\n" +
+        "7️⃣ - Wallpaper para celular 📱\n" +
+        "8️⃣ - Trocar apelido ✏️\n" +
+        "9️⃣ - GGWP (sair) 🤩";
+  
+      await bot.sendMessage(chatId, menuDireto);
+    })();
+  
+    return;
   }
 
   // Já interagiu, trata comandos normais
@@ -167,7 +205,13 @@ Em 2023, o lendário FalleN entrou no time e trouxe ainda mais experiência 💪
         }
       }
     );
-  } else if (["7", "sair", "ggwp", "tchau", "7️⃣"].some(p => texto.includes(p))) {
+  } else if (["7", "wallpaper", "plano de fundo", "celular", "plano", "fundo", "tela", "7️⃣"].some(p => texto.includes(p))) {
+    sendWallpaper(chatId, 0);
+
+  } else if (["8", "trocar", "nome", "apelido", "nick", "8️⃣"].some(p => texto.includes(p))) {
+    users[chatId].changingName = true;
+    bot.sendMessage(chatId, "✏️ Sem problemas! Qual nome você gostaria de usar a partir de agora?");
+  } else if (["9", "sair", "ggwp", "tchau", "9️⃣"].some(p => texto.includes(p))) {
     bot.sendMessage(chatId, "Foi um prazer enooorme trocar essa ideia contigo, eu espero te ver mais vezes por aqui em? GGWP! GO FURIA! 🐾🐾😼");
     users[chatId].hasReceivedMenu = false;
     users[chatId].awaitingFirstMessageAfterClose = true;
@@ -190,29 +234,31 @@ bot.on("callback_query", (callbackQuery) => {
   const chatId = callbackQuery.message.chat.id;
   const data = callbackQuery.data;
 
-  resetInactivityTimeout(chatId);
-
   console.log("📲 Callback recebido:", { chatId, data });
 
   if (data === "accept_terms") {
-    users[chatId] = { accepted: true, waitingName: true, name: "", hasReceivedMenu: false };
+    users[chatId] = {
+      accepted: true,
+      waitingName: true,
+      name: "",
+      hasReceivedMenu: false,
+      timeout: null, 
+      awaitingFirstMessageAfterClose: false
+    };
+  
+    resetInactivityTimeout(chatId); 
+  
     bot.sendMessage(chatId, "Booaa! Estamos seguindo a mesma call! 🤙🎧");
     setTimeout(() => {
-        bot.sendMessage(chatId, "✍️ Para melhorarmos nossa comunicação, me responda: Qual é o seu nome?");
-      }, 500);
-
+      bot.sendMessage(chatId, "✍️ Para melhorarmos nossa comunicação, me responda: Qual é o seu nome?");
+    }, 500);
+  
     bot.editMessageReplyMarkup({ inline_keyboard: [] }, {
       chat_id: chatId,
       message_id: callbackQuery.message.message_id
     });
-  } else if (data === "no_accept_terms") {
-    bot.sendMessage(chatId, "❌ Você recusou os termos e está tudo bem, entendo que no momento nossas expectativas não estejam alinhadas 😞\nEspero te ver novamente em uma outra oportunidade 🤞\n\nAté mais!!. 👋👋");
-    delete users[chatId];
+    resetInactivityTimeout(chatId); 
 
-    bot.editMessageReplyMarkup({ inline_keyboard: [] }, {
-      chat_id: chatId,
-      message_id: callbackQuery.message.message_id
-    });
   } else if (data === "curiosities_players") {
     bot.sendMessage(chatId, "É disso que eu to falando!!! Ninguém resiste a algumas curiosidades, então escolhe um jogador:", {
       reply_markup: {
@@ -240,6 +286,8 @@ bot.on("callback_query", (callbackQuery) => {
       chat_id: chatId,
       message_id: callbackQuery.message.message_id
     });
+    resetInactivityTimeout(chatId); 
+
   } else if (data === "curiosity_fallen") {
     bot.sendMessage(chatId, 
       "🎓 <b>FalleN (Gabriel Toledo)</b>\n" +
@@ -248,6 +296,8 @@ bot.on("callback_query", (callbackQuery) => {
       "• Líder tático e estrategista nato, comanda o time como IGL com maestria.",
       { parse_mode: 'HTML' }
     );
+    resetInactivityTimeout(chatId); 
+
   } else if (data === "curiosity_yuurih") {
     bot.sendMessage(chatId,
       "🪨 <b>yuurih (Yuri Boian)</b>\n" +
@@ -256,6 +306,8 @@ bot.on("callback_query", (callbackQuery) => {
       "• Fora do servidor é discreto, mas no game é mortal. 🐍",
       { parse_mode: 'HTML' }
     );
+    resetInactivityTimeout(chatId); 
+
   } else if (data === "curiosity_kscerato") {
     bot.sendMessage(chatId,
       "💥 <b>KSCERATO (Kaike Cerato)</b>\n" +
@@ -264,6 +316,8 @@ bot.on("callback_query", (callbackQuery) => {
       "• Já esteve entre os <b>20 melhores do mundo</b>.",
       { parse_mode: 'HTML' }
     );
+    resetInactivityTimeout(chatId); 
+
   } else if (data === "curiosity_molodoy") {
     bot.sendMessage(chatId,
       "🧢 <b>molodoy (Ilya Molodoy)</b>\n" +
@@ -272,6 +326,8 @@ bot.on("callback_query", (callbackQuery) => {
       "• Fica de olho, ele promete fazer história! ✨",
       { parse_mode: 'HTML' }
     );
+    resetInactivityTimeout(chatId); 
+
   } else if (data === "curiosity_yekindar") {
     bot.sendMessage(chatId,
       "🚀 <b>YEKINDAR (Mareks Gaļinskis)</b>\n" +
@@ -280,6 +336,8 @@ bot.on("callback_query", (callbackQuery) => {
       "• Destaque em 2022 como um dos maiores impactadores por round.",
       { parse_mode: 'HTML' }
     );
+    resetInactivityTimeout(chatId); 
+
   } else if (data === "menu") {
     sendMainMenu(chatId); // usa a lógica que já diferencia as mensagens
 
@@ -287,15 +345,29 @@ bot.on("callback_query", (callbackQuery) => {
       chat_id: chatId,
       message_id: callbackQuery.message.message_id
     });
+    resetInactivityTimeout(chatId); 
+
   } else if (data === "close_chat") {
     bot.sendMessage(chatId, "Foi um prazer enooorme trocar essa ideia contigo, eu espero te ver mais vezes por aqui em? GGWP! GO FURIA! 🐾🐾😼");
+    
     users[chatId].hasReceivedMenu = false;
-    users[chatId].awaitingFirstMessageAfterClose = true; // ATIVA A FLAG AQUI
-
+    users[chatId].awaitingFirstMessageAfterClose = true;
+  
+    // Cancela o timeout ativo, se existir
+    if (users[chatId].timeout) {
+      clearTimeout(users[chatId].timeout);
+      users[chatId].timeout = null;
+    }
+  
     bot.editMessageReplyMarkup({ inline_keyboard: [] }, {
       chat_id: chatId,
       message_id: callbackQuery.message.message_id
     });
+
+  } else if (data.startsWith("other_wallpaper_")) {
+    const index = parseInt(data.split("_").pop());
+    sendWallpaper(chatId, index);
+    resetInactivityTimeout(chatId);
   }
   
   bot.answerCallbackQuery(callbackQuery.id);
@@ -320,18 +392,23 @@ function sendMainMenu(chatId) {
       "4️⃣ - Próximos torneios 🏆\n" +
       "5️⃣ - Link da nossa lojinha 🛒\n" +
       "6️⃣ - História da Fúria no CS 🔥\n" +
-      "7️⃣ - GGWP (sair) 🤩";
+      "7️⃣ - Wallpaper para celular 📱\n" +
+      "8️⃣ - Trocar apelido ✏️\n" +
+      "9️⃣ - GGWP (sair) 🤩";
 
     bot.sendMessage(chatId, saudacao);
   } else {
     const menuDireto =
-      "🔥 Segue os tópicos do nosso menu \n\n" +
-      "1️⃣ - Ver os próximos jogos 📆\n" +
-      "2️⃣ - Ver resultados recentes 🖋️\n" +
-      "3️⃣ - Ver a escalação atual 👥\n" +
-      "4️⃣ - Próximos torneios 🏆\n" +
-      "6️⃣ - História da Fúria no CS 🔥\n" +
-      "7️⃣ - GGWP (sair) 🤩";
+  "🔥 Segue os tópicos do nosso menu \n\n" +
+    "1️⃣ - Ver os próximos jogos 📆\n" +
+    "2️⃣ - Ver resultados recentes 🖋️\n" +
+    "3️⃣ - Ver a escalação atual 👥\n" +
+    "4️⃣ - Próximos torneios 🏆\n" +
+    "5️⃣ - Link da nossa lojinha 🛒\n" +
+    "6️⃣ - História da Fúria no CS 🔥\n" +
+    "7️⃣ - Wallpaper para celular 📱\n" +
+    "8️⃣ - Trocar apelido ✏️\n" +
+    "9️⃣ - GGWP (sair) 🤩";
 
     bot.sendMessage(chatId, menuDireto);
   }
@@ -342,19 +419,52 @@ function resetInactivityTimeout(chatId) {
   const user = users[chatId];
   if (!user) return;
 
+  // ❌ Não define timeout enquanto aguarda o nome do usuário
+  if (user.waitingName) return;
+
   // Limpa timeout anterior se existir
   if (user.timeout) {
     clearTimeout(user.timeout);
   }
 
-  // Define novo timeout de 10 minutos
+  // Define novo timeout
   user.timeout = setTimeout(() => {
     bot.sendMessage(chatId, "🕒 Devido à nossa inatividade, vou estar encerrando automaticamente nosso bate-papo, mas não se preocupe, quando você voltar estarei aqui para conversarmos novamente. 👋");
     users[chatId].hasReceivedMenu = false;
     users[chatId].timeout = null;
     users[chatId].awaitingFirstMessageAfterClose = true;
-  }, 10 * 1000); // 10 minutos
+  }, 20 * 1000); // 10 minutos
 }
+
+const fs = require("fs");
+
+function sendWallpaper(chatId, index) {
+  const item = wallpapers[index];
+  if (!item) return;
+
+  const nextIndex = index + 1;
+
+  const buttons = [
+    nextIndex < wallpapers.length
+      ? [{ text: "➡️ Ver outro", callback_data: `other_wallpaper_${nextIndex}` }]
+      : [],
+    [
+      { text: "📖 Menu", callback_data: "menu" },
+      { text: "❌ Encerrar", callback_data: "close_chat" }
+    ]
+  ].filter(row => row.length > 0);
+
+  const absolutePath = path.resolve(__dirname, item.path);
+  const fileStream = fs.createReadStream(absolutePath); // <-- Correção aqui!
+
+  bot.sendPhoto(chatId, fileStream, {
+    caption: item.caption,
+    reply_markup: {
+      inline_keyboard: buttons
+    }
+  });
+}
+
 
 // Inicia servidor
 app.listen(PORT, () => {
