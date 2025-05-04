@@ -29,7 +29,7 @@ bot.on("message", (msg) => {
     users[chatId] = { accepted: false, waitingName: false, name: "", hasReceivedMenu: false };
 
     bot.sendMessage(chatId, "💥💥 Falaaaa Furioso! Que ótimo te ver por aqui, eu sou o Furiosinho e estou animado para te deixar por dentro de tudo sobre nosso time de CS da Fúria 👊🚀")
-    setTimeout(() => { return bot.sendMessage(chatId, "🤖 Para continuar, você precisa aceitar os termos de uso:", {
+    setTimeout(() => { return bot.sendMessage(chatId, "🤖 Termos de uso: exemplo.com", {
       reply_markup: {
         inline_keyboard: [
           [
@@ -70,7 +70,7 @@ E tem reforço fora do server também: os analistas Lucid e innersh1ne agora faz
         reply_markup: {
           inline_keyboard: [
             [
-              { text: "📖 Reenviar Menu", callback_data: "menu" },
+              { text: "📖 Menu", callback_data: "menu" },
               { text: "❌ Encerrar chat", callback_data: "close_chat" }
             ]
           ]
@@ -84,7 +84,7 @@ E tem reforço fora do server também: os analistas Lucid e innersh1ne agora faz
         reply_markup: {
           inline_keyboard: [
             [
-              { text: "📖 Reenviar Menu", callback_data: "menu" },
+              { text: "📖 Menu", callback_data: "menu" },
               { text: "❌ Encerrar chat", callback_data: "close_chat" }
             ]
           ]
@@ -106,7 +106,7 @@ E tem reforço fora do server também: os analistas Lucid e innersh1ne agora faz
           inline_keyboard: [
             [
               { text: "✅ Aceito", callback_data: "curiosities_players" },
-              { text: "📖 Não, valeu! Manda o menu", callback_data: "menu" }
+              { text: "📖 Menu", callback_data: "menu" }
             ],
             [
               { text: "❌ Encerrar chat", callback_data: "close_chat" }
@@ -126,7 +126,7 @@ E tem reforço fora do server também: os analistas Lucid e innersh1ne agora faz
         reply_markup: {
           inline_keyboard: [
             [
-              { text: "📖 Reenviar Menu", callback_data: "menu" },
+              { text: "📖 Menu", callback_data: "menu" },
               { text: "❌ Encerrar chat", callback_data: "close_chat" }
             ]
           ]
@@ -140,14 +140,34 @@ E tem reforço fora do server também: os analistas Lucid e innersh1ne agora faz
         reply_markup: {
           inline_keyboard: [
             [
-              { text: "📖 Reenviar Menu", callback_data: "menu" },
+              { text: "📖 Menu", callback_data: "menu" },
               { text: "❌ Encerrar chat", callback_data: "close_chat" }
             ]
           ]
         }
       }
     );
-  } else if (["6", "sair", "ggwp", "tchau", "6️⃣"].some(p => texto.includes(p))) {
+  } else if (["6", "historia", "cenario", "furia", "6️⃣"].some(p => texto.includes(p))) {
+    bot.sendMessage(chatId, `🔥 FURIA no CS 🔫
+
+A FURIA é um time brabo de eSports do Brasil 🇧🇷, criado em 2017, e que mandou ver no CS:GO desde 2018! Eles ficaram famosos pelo estilo de jogo super agressivo 😈, com o art puxando a galera pra cima dos adversários sem medo!
+
+Com nomes como KSCERATO e yuurih, a FURIA brilhou em vários campeonatos gringos 🌍 e fez história ao bater gigantes como a Astralis. O auge foi no Major do Rio em 2022, quando jogaram em casa e chegaram até as semis com a torcida toda gritando 🏟️🔥.
+
+Em 2023, o lendário FalleN entrou no time e trouxe ainda mais experiência 💪. Agora, no CS2, a FURIA continua firme, representando o Brasil com garra e jogadas insanas! 💥🎯`,
+      {
+        parse_mode: 'HTML',
+        reply_markup: {
+          inline_keyboard: [
+            [
+              { text: "📖 Menu", callback_data: "menu" },
+              { text: "❌ Encerrar chat", callback_data: "close_chat" }
+            ]
+          ]
+        }
+      }
+    );
+  } else if (["7", "sair", "ggwp", "tchau", "7️⃣"].some(p => texto.includes(p))) {
     bot.sendMessage(chatId, "Foi um prazer enooorme trocar essa ideia contigo, eu espero te ver mais vezes por aqui em? GGWP! GO FURIA! 🐾🐾😼");
     users[chatId].hasReceivedMenu = false;
     users[chatId].awaitingFirstMessageAfterClose = true;
@@ -176,9 +196,9 @@ bot.on("callback_query", (callbackQuery) => {
 
   if (data === "accept_terms") {
     users[chatId] = { accepted: true, waitingName: true, name: "", hasReceivedMenu: false };
-    bot.sendMessage(chatId, "Booaa! Estamos seguindo a mesma call!");
+    bot.sendMessage(chatId, "Booaa! Estamos seguindo a mesma call! 🤙🎧");
     setTimeout(() => {
-        bot.sendMessage(chatId, "Para melhorarmos nossa comunicação, me responda: Qual é o seu nome?");
+        bot.sendMessage(chatId, "✍️ Para melhorarmos nossa comunicação, me responda: Qual é o seu nome?");
       }, 500);
 
     bot.editMessageReplyMarkup({ inline_keyboard: [] }, {
@@ -214,6 +234,11 @@ bot.on("callback_query", (callbackQuery) => {
           ]
         ]
       }      
+    })
+
+    bot.editMessageReplyMarkup({ inline_keyboard: [] }, {
+      chat_id: chatId,
+      message_id: callbackQuery.message.message_id
     });
   } else if (data === "curiosity_fallen") {
     bot.sendMessage(chatId, 
@@ -257,10 +282,20 @@ bot.on("callback_query", (callbackQuery) => {
     );
   } else if (data === "menu") {
     sendMainMenu(chatId); // usa a lógica que já diferencia as mensagens
+
+    bot.editMessageReplyMarkup({ inline_keyboard: [] }, {
+      chat_id: chatId,
+      message_id: callbackQuery.message.message_id
+    });
   } else if (data === "close_chat") {
     bot.sendMessage(chatId, "Foi um prazer enooorme trocar essa ideia contigo, eu espero te ver mais vezes por aqui em? GGWP! GO FURIA! 🐾🐾😼");
     users[chatId].hasReceivedMenu = false;
     users[chatId].awaitingFirstMessageAfterClose = true; // ATIVA A FLAG AQUI
+
+    bot.editMessageReplyMarkup({ inline_keyboard: [] }, {
+      chat_id: chatId,
+      message_id: callbackQuery.message.message_id
+    });
   }
   
   bot.answerCallbackQuery(callbackQuery.id);
@@ -278,13 +313,14 @@ function sendMainMenu(chatId) {
     user.hasReceivedMenu = true;
 
     const saudacao =
-      `🔥 Eaaee, FUR ${nome}!!! É um prazer enorme te ter na nossa comunidade! Sobre o que podemos conversar hoje?\n\n` +
+      `🔥 Eaaee, FUR ${nome} 🇧🇷!!! É um prazer enorme te ter na nossa comunidade! Sobre o que podemos conversar hoje?\n\n` +
       "1️⃣ - Ver os próximos jogos 📆\n" +
       "2️⃣ - Ver resultados recentes 🖋️\n" +
       "3️⃣ - Ver a escalação atual 👥\n" +
       "4️⃣ - Próximos torneios 🏆\n" +
       "5️⃣ - Link da nossa lojinha 🛒\n" +
-      "6️⃣ - GGWP (sair) 🤩";
+      "6️⃣ - História da Fúria no CS 🔥\n" +
+      "7️⃣ - GGWP (sair) 🤩";
 
     bot.sendMessage(chatId, saudacao);
   } else {
@@ -294,8 +330,8 @@ function sendMainMenu(chatId) {
       "2️⃣ - Ver resultados recentes 🖋️\n" +
       "3️⃣ - Ver a escalação atual 👥\n" +
       "4️⃣ - Próximos torneios 🏆\n" +
-      "5️⃣ - Link da nossa lojinha 🛒\n" +
-      "6️⃣ - GGWP (sair) 🤩";
+      "6️⃣ - História da Fúria no CS 🔥\n" +
+      "7️⃣ - GGWP (sair) 🤩";
 
     bot.sendMessage(chatId, menuDireto);
   }
@@ -316,7 +352,8 @@ function resetInactivityTimeout(chatId) {
     bot.sendMessage(chatId, "🕒 Devido à nossa inatividade, vou estar encerrando automaticamente nosso bate-papo, mas não se preocupe, quando você voltar estarei aqui para conversarmos novamente. 👋");
     users[chatId].hasReceivedMenu = false;
     users[chatId].timeout = null;
-  }, 10 * 60 * 1000); // 10 minutos
+    users[chatId].awaitingFirstMessageAfterClose = true;
+  }, 10 * 1000); // 10 minutos
 }
 
 // Inicia servidor
