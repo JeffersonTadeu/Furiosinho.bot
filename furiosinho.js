@@ -433,7 +433,7 @@ function resetInactivityTimeout(chatId) {
     users[chatId].hasReceivedMenu = false;
     users[chatId].timeout = null;
     users[chatId].awaitingFirstMessageAfterClose = true;
-  }, 20 * 1000); // 10 minutos
+  }, 60 * 60 * 1000); // 1 hora
 }
 
 const fs = require("fs");
